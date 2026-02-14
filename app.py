@@ -19,10 +19,19 @@ server = app.server
 app.config.suppress_callback_exceptions = True
 
 
-# Load data from csv
 def load_data():
-    # To do: Completar la funciÃ³n 
-    
+    import pandas as pd
+
+    # Cargar el archivo CSV
+    df = pd.read_csv("datos_energia.csv")
+
+    # Convertir la columna de fecha a datetime
+    df["time"] = pd.to_datetime(df["time"])
+
+    # Usar la fecha como índice
+    df.set_index("time", inplace=True)
+
+    return df
 
 # Cargar datos
 data = load_data()
@@ -240,4 +249,4 @@ def update_output_div(date, hour, proy):
 
 # Run the server
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run(debug=True)
